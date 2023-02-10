@@ -13,10 +13,10 @@ function reg($db) {
 		else $res = $check;
 	}
 
-	elseif($_GET['subType'] == "getToken") {
-		
+	elseif($_GET['subType'] == "getUserId") {
+		include "getUserId.php";
+		$res = getIdUser($db);
 	}
-
 
 
 	return $res;

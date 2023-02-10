@@ -8,26 +8,26 @@ function users($db) {
         if($searchKey != null) {
             switch ($activeStatus) {
                 case 'active':
-                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE users.activeStatus = 0 AND (name LIKE '%$searchKey%' OR surname LIKE '%$searchKey%' OR users.id LIKE '%$searchKey%') ORDER BY id DESC LIMIT ?i, ?i";
+                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail , users.activeStatus FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE users.activeStatus = 0 AND (name LIKE '%$searchKey%' OR surname LIKE '%$searchKey%' OR users.id LIKE '%$searchKey%') ORDER BY id DESC LIMIT ?i, ?i";
                     break;
                 case 'inactive':
-                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE users.activeStatus = 1 AND (name LIKE '%$searchKey%' OR surname LIKE '%$searchKey%' OR users.id LIKE '%$searchKey%') ORDER BY id DESC LIMIT ?i, ?i";
+                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail , users.activeStatus FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE users.activeStatus = 1 AND (name LIKE '%$searchKey%' OR surname LIKE '%$searchKey%' OR users.id LIKE '%$searchKey%') ORDER BY id DESC LIMIT ?i, ?i";
                     break;
                 default:
-                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE name LIKE '%$searchKey%' OR surname LIKE '%$searchKey%' OR users.id LIKE '%$searchKey%' ORDER BY id DESC LIMIT ?i, ?i";
+                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail , users.activeStatus FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE name LIKE '%$searchKey%' OR surname LIKE '%$searchKey%' OR users.id LIKE '%$searchKey%' ORDER BY id DESC LIMIT ?i, ?i";
                     break;
             }
         }
         else {
             switch ($activeStatus) {
                 case 'active':
-                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE users.activeStatus = 0 ORDER BY id DESC LIMIT ?i, ?i";
+                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail , users.activeStatus FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE users.activeStatus = 0 ORDER BY id DESC LIMIT ?i, ?i";
                     break;
                 case 'inactive':
-                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE users.activeStatus = 1 ORDER BY id DESC LIMIT ?i, ?i";
+                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail , users.activeStatus FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id WHERE users.activeStatus = 1 ORDER BY id DESC LIMIT ?i, ?i";
                     break;
                 default:
-                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id ORDER BY id DESC LIMIT ?i, ?i";
+                    $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor, users.mail , users.activeStatus FROM users_profile LEFT JOIN users ON users_profile.user_id = users.id ORDER BY id DESC LIMIT ?i, ?i";
                     break;
             }
         }

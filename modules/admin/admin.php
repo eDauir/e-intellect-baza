@@ -121,9 +121,13 @@ function action($db, $data) {
             include "update/settings.php";
             $res = settings($db);
             break;
-         case 'updateUser':
+        case 'updateUser':
             include "update/user.php";
             $res = user($db);
+            break;
+        case 'updateUserStatus':
+            include "update/user.php";
+            $res = changeStatus($db);
             break;
         case 'updateBuyRates':
             include "update/buyRates.php";
@@ -192,6 +196,10 @@ function action($db, $data) {
         case 'insertFaq':
             include "insert/faq.php";
             $res = faq($db);
+            break;
+        case 'getCategory':
+            include "get/category.php";
+            $res = getCategory($db);
             break;
     }
     return $res;

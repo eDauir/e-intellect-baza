@@ -26,8 +26,27 @@ function user($db) {
                 $sql = "UPDATE users SET editor = '$editor', mail = '$mail' WHERE id = '$id'";
                 $updateQuery = $db->query($sql);
 
+
+
+
+
+
                 return true;
         }
 
         return false;
+};
+
+
+
+
+function changeStatus ($db) {
+        if(isset($_GET['status']) && isset($_GET['user_id']) ) {
+                $status = convertStr($_GET['status']);
+                $id = convertStr($_GET['user_id']);
+
+                $sql = "UPDATE users SET activeStatus = '$status' WHERE id = '$id' ";
+                $updateQuery = $db->query($sql);
+                return true;
+        }
 }

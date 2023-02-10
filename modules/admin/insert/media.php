@@ -42,6 +42,24 @@ if(isset($_POST['authToken']) && isset($_POST['media']) && isset($_POST['mType']
 
                         echo 'true';
                 }
+
+                elseif($_POST['mType'] == 'imgUser') {
+
+                        // if(!isset($_POST['userId'])) return 'not user_id';
+
+                        $postImg = $_POST['media'];
+                        $image = convertImgToBase($postImg);
+                        $userId = convertStr($_POST['userId']);
+
+                        
+                        
+                        $sql = "UPDATE users_profile SET avatar = '$image' WHERE user_id = '$userId' ";
+                        
+                        $updateQuery = $db->query($sql);
+                
+                        return true;
+                }
+
                 else {
                         $postImg = $_POST['media'];
                         $image = convertImgToBase($postImg);
