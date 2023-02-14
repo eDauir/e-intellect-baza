@@ -1,9 +1,21 @@
 <?php
 
 function getCategory ($db) {
-    $sql = "SELECT  category.*   FROM category  ";
+    $per_page = 20;
+    $start = getStart();
+    $searchKey = getSearchKey();
+
+    if($searchKey == null) 
+        $sql = "SELECT SQL_CALC_FOUND_ROWS  category.*   FROM category  ";
+    else 
+        $sql = "SELECT SQL_CALC_FOUND_ROWS  category.*   FROM category  WHERE name LIKE '%$searchKey%' ";
 
     $category = $db->getAll($sql);
+
+
+
+
+
 
 
     $arrOrders = [];
@@ -12,7 +24,7 @@ function getCategory ($db) {
     foreach($category as $item) {
         $categoryId = $item['id'];
 
-        $sql = "SELECT products.categoryId , COUNT( orders.id) as workers , COUNT(DISTINCT products.id) as productsCount  FROM products  LEFT JOIN orders ON products.id = orders.productId WHERE products.categoryId = '$categoryId' ";
+        $sql = "SELECT products.categoryId , COUNT( orders.id) as workers , COUNT(DISTINCT products.id) as productsCount  FROM products  LEFT JOIN orders ON products.id = orders.productId WHERE  products.categoryId = '$categoryId' ";
         $orders = $db->getAll($sql);
 
 
@@ -48,7 +60,35 @@ function getCategory ($db) {
 
 
 
+    $rows = $db->getOne("SELECT FOUND_ROWS()");
+    $num_pages = ceil($rows / $per_page);
+    $arrayToJson = array();
+    $arrayToJson['count'] = $num_pages;
+    $arrayToJson['category'] = $category;
 
 
-    return $category;
+
+
+    return $arrayToJson;
 }
+
+
+
+
+
+function getStart() {
+    $cur_page = 1;
+    $per_page = 20;
+    if (isset($_GET['page']) && $_GET['page'] > 0) $cur_page = convertStr($_GET['page']);
+    $start = ($cur_page - 1) * $per_page;
+
+    return $start;
+}
+
+function getSearchKey() {
+    if(!empty($_GET['searchKey']))
+        return convertStr($_GET['searchKey']);
+
+    return null;
+}
+

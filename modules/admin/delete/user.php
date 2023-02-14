@@ -14,6 +14,10 @@ function user($db) {
             if(end($imageFile) != 'noAva.png')
                 unlink($root . '/'.$projectPathName.'/images/' . end($imageFile));
 
+            $sql = "SELECT id FROM products WHERE userId = '$id'";
+            $data = $db->getAll($sql);
+
+
             $sql = "DELETE FROM users_profile WHERE user_id = '$id'";
             $deleteQuery = $db->query($sql);
 
@@ -28,6 +32,20 @@ function user($db) {
 
             $sql = "DELETE FROM users WHERE id = '$id'";
             $deleteQuery = $db->query($sql);
+
+
+            
+            if (count($data) > 0) {
+                include "post.php";
+                // return $products;
+                foreach ($data as $item) {
+                    $productId = $item['id'];
+                    post($db , $productId);
+                    // return $productId;
+                }
+            }
+
+
 
             return true;
         }

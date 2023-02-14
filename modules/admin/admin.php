@@ -1,6 +1,7 @@
 <?php
-function admin($db) {
-    if($_GET['subType'] == 'getContacts' || $_GET['subType'] == 'getSettings') {
+function admin($db)
+{
+    if ($_GET['subType'] == 'getContacts' || $_GET['subType'] == 'getSettings') {
         switch ($_GET['subType']) {
             case 'getContacts':
                 include "get/contacts.php";
@@ -15,7 +16,7 @@ function admin($db) {
         return $res;
     }
 
-    if(!empty($_GET['authToken'])) {
+    if (!empty($_GET['authToken'])) {
         $authToken = convertStr($_GET['authToken']);
 
         $sql = "SELECT SQL_CALC_FOUND_ROWS users_profile.*, users.editor FROM users_profile INNER JOIN users ON users_profile.user_id = users.id WHERE users_profile.user_id = (SELECT id FROM users WHERE accessToken = '$authToken' AND editor = 2)";
@@ -23,21 +24,23 @@ function admin($db) {
         $data = $db->getAll($sql);
         $count = count($data);
 
-        if($count > 0) {
+        if ($count > 0) {
             $resAction = action($db, $data);
             return $resAction;
-        } return null;
-    } 
+        }
+        return null;
+    }
 
     return null;
 }
 
-function action($db, $data) {
+function action($db, $data)
+{
     switch ($_GET['subType']) {
-    	case 'active':
-        	include "active.php";
-        	$res = active($db);
-        	break;
+        case 'active':
+            include "active.php";
+            $res = active($db);
+            break;
         case 'check':
             $res = $data;
             break;
@@ -53,7 +56,7 @@ function action($db, $data) {
             include "get/fund.php";
             $res = fund($db);
             break;
-         case 'getLessons':
+        case 'getLessons':
             include "get/lessons.php";
             $res = lessons($db);
             break;
@@ -200,6 +203,18 @@ function action($db, $data) {
         case 'getCategory':
             include "get/category.php";
             $res = getCategory($db);
+            break;
+        case 'updateCategory':
+            include "update/category.php";
+            $res = updateCategory($db);
+            break;
+        case 'insertCategory':
+            include "insert/category.php";
+            $res = insertCategory($db);
+            break;
+        case 'deleteCategory':
+            include "delete/category.php";
+            $res = deleteCategory($db);
             break;
     }
     return $res;

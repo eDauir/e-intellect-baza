@@ -1,12 +1,18 @@
 <?php
-function post($db) {
+function post($db , $productId = false) {
         
-        if(!empty($_GET['id'])) {
-            $id = convertStr($_GET['id']);
+        if(!empty($_GET['id']) || $productId != false) {
+            $id = '';
+            
+            if($productId != false) {
+                $id = convertStr($productId);
+            }else {
+                $id = convertStr($_GET['id']);
+            }
             $projectPathName = "digway";
             $root = $_SERVER['DOCUMENT_ROOT'];
 
-            $sql = "SELECT SQL_CALC_FOUND_ROWS link FROM images WHERE productId = $id";
+            $sql = "SELECT SQL_CALC_FOUND_ROWS link FROM images WHERE productId = '$id'";
 
             $data = $db->getAll($sql);
 
@@ -27,6 +33,14 @@ function post($db) {
 
             $sql = "DELETE FROM products WHERE id = '$id'";
             $deleteQuery = $db->query($sql);
+
+            $sql = "DELETE FROM orders WHERE productId = '$id'";
+            $deleteQuery = $db->query($sql);
+
+            // $sql = "DELETE FROM lessons WHERE productId = '$id'";
+            // $deleteQuery = $db->query($sql);
+
+
 
             return true;
         }
